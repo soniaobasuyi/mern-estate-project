@@ -2,11 +2,10 @@ import User from "../models/UserModel.js";
 import bcryptjs from 'bcryptjs';
 import {errorHandler} from "../utils/Error.js";
 import jwt from 'jsonwebtoken'
-import {now} from "mongoose";
 
 export const signup = async (req, res, next) => {
     const { username, email, password } = req.body;
-    const hashedPassword = bcryptjs.hashSync(password, 5);
+    const hashedPassword = bcryptjs.hashSync(password, 10);
     const newUser = new User({ username, email, password: hashedPassword });
 
     try {
