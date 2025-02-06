@@ -6,7 +6,7 @@ export const testRoute = (req, res) => {
     res.json({
         message: "this route is working"
     });
-}
+};
 
 export const updateUser = async (req, res, next) => {
     if (req.user.id !== req.params.id) return next(errorHandler(401, 'You can only update your own account!'));
@@ -29,6 +29,18 @@ export const updateUser = async (req, res, next) => {
 
         const {password, ...userInfoWithoutPassword} = updatedUser._doc;
         res.status(200).json(userInfoWithoutPassword);
+    } catch (error) {
+        next(error);
+    }
+};
+
+export const deleteUser = async (req, res, next) => {
+    if (req.user.id !== req.params.id) return next(errorHandler(401, 'You can only delete your own account!'));
+
+    try {
+        await User.findByIdAndDelete(req.params.id)
+        res.clearCookie('access-token');
+        res.status(200).json('User deleted successfully!');
     } catch (error) {
         next(error);
     }
