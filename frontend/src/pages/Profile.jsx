@@ -157,6 +157,7 @@ export default function Profile() {
                     placeholder={'password'}
                     id={'password'}
                     className={'border p-3 rounded-lg'}
+                    onChange={handleChange}
                 />
                 <button disabled={loading} className={'bg-slate-700 text-white uppercase p-3 rounded-lg hover:opacity-95 disabled:opacity-80'}>
                     {loading ? 'Loading...' : 'Update'}
