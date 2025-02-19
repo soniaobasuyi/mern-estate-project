@@ -35,16 +35,17 @@ export default function Profile() {
         const storageRef = ref(storage, fileName);
         const uploadTask = uploadBytesResumable(storageRef, file);
 
-        uploadTask.on('state_changed', (snapshot) => {
-            const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setFilePercentage(Math.round(progress));
+        uploadTask.on(
+            'state_changed', (snapshot) => {
+                const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setFilePercentage(Math.round(progress));
             },
             (error) => {
-            setFileUploadError(true);
+                setFileUploadError(true);
             },
             () => {
-            getDownloadURL(uploadTask.snapshot.ref).then(
-                (downloadURL)=> setFormData({...formData, avatar: downloadURL})
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL)=>
+                    setFormData({...formData, avatar: downloadURL})
                 );
             }
         );
