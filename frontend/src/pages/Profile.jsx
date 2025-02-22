@@ -100,7 +100,7 @@ export default function Profile() {
     const handleSignOut = async () => {
         try {
             dispatch(signOutStart());
-            const res = await fetch('api/auth/signout');
+            const res = await fetch('/api/auth/signout');
             const data = await res.json();
             if (data.success === false) {
                 dispatch(signOutFailure(data.message));
@@ -115,7 +115,7 @@ export default function Profile() {
     const handleShowListings = async () => {
         try {
             setShowListingsError(false);
-            const res = await fetch(`api/user/listings/${currentUser._id}`);
+            const res = await fetch(`/api/user/listings/${currentUser._id}`);
             const data = await res.json();
             if (data.success === false) {
                 setShowListingsError(true);
