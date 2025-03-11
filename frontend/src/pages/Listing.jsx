@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import SwiperCore from "swiper";
 import {Navigation} from "swiper/modules";
 import {Swiper, SwiperSlide} from "swiper/react";
 import "swiper/css/bundle";
 import {FaBath, FaBed, FaChair, FaMapMarkerAlt, FaParking, FaShare} from "react-icons/fa";
+import {useSelector} from "react-redux";
+import ContactLandlord from "../components/ContactLandlord.jsx";
 
 export default function Listing() {
     SwiperCore.use([Navigation]);
@@ -13,6 +15,9 @@ export default function Listing() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [contactLandlord, setContactLandlord] = useState(true);
+    const {currentUser} = useSelector((state) => state.user);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchListing = async () => {
@@ -98,7 +103,7 @@ export default function Listing() {
                             </p>
                             {listing.offer && (
                                 <p className={'bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'}>
-                                    ${+listing.regularPrice - +listing.discountPrice} OFF
+                                    ${+listing.regularPrice - +listing.discountPrice} discount
                                 </p>
                             )}
                         </div>
@@ -123,8 +128,19 @@ export default function Listing() {
                                 <FaChair className={'text-lg'} />
                                 {listing.furnished ? 'Furnished' : 'Unfurnished'}
                             </li>
-
                         </ul>
+
+                        {listing.userRef !== currentUser?._id && contactLandlord &&
+                            (<button
+                                onClick={() => {
+                                    if (!currentUser) return navigate('/sign-in');
+                                        setContactLandlord(false);
+                                }}
+                                className={'uppercase bg-slate-700 text-white p-3 rounded-lg hover:opacity-95'}>
+                                Contact landlord
+                            </button>)
+                        }
+                        {!contactLandlord && <ContactLandlord listing={listing} />}
                     </div>
                 </>
             )}
