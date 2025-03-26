@@ -67,13 +67,13 @@ export const searchListings = async (req, res, next) => {
 
         let parking = req.query.parking;
 
-        if (parking === undefined || offer === 'false') {
+        if (parking === undefined || parking === 'false') {
             parking = { $in: [false, true] };
         }
 
         let furnished = req.query.furnished;
 
-        if (furnished === undefined || offer === 'false') {
+        if (furnished === undefined || furnished === 'false') {
             furnished = { $in: [false, true] };
         }
 
