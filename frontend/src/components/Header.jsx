@@ -22,7 +22,7 @@ export default function Header() {
         if (searchTermFromUrl) {
             setSearchTerm(searchTermFromUrl);
         }
-    }, []);
+    }, [location.search]);
     
 
     return (
