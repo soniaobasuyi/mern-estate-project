@@ -1,5 +1,6 @@
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import ListingItem from "../components/ListingItem.jsx";
 
 export default function Search() {
     const navigate = useNavigate();
@@ -120,7 +121,7 @@ export default function Search() {
                         <div className={'flex gap-2'}>
                             <input
                                 type={'checkbox'}
-                                id={'Rent'}
+                                id={'rent'}
                                 className={'w-5'}
                                 onChange={handleChange}
                                 checked={searchFilters.type === 'rent'}
@@ -130,7 +131,7 @@ export default function Search() {
                         <div className={'flex gap-2'}>
                             <input
                                 type={'checkbox'}
-                                id={'Sale'}
+                                id={'sale'}
                                 className={'w-5'}
                                 onChange={handleChange}
                                 checked={searchFilters.type === 'sale'}
@@ -194,13 +195,17 @@ export default function Search() {
                 </form>
             </div>
 
-            <div>
-                {loading && <p className={'text-center text-2xl'}>Loading...</p>}
-                {!loading &&
-                    <h1 className={'text-3xl text-slate-700 mt-5 border-b p-3 font-semibold'}>
-                        Listing results:
-                    </h1>
-                }
+            <div className={'flex-1'}>
+                <h1 className={'text-3xl text-slate-700 mt-5 border-b p-3 font-semibold'}>
+                    Listing results:
+                </h1>
+                <div className={'p-7 gap-4 flex flex-wrap'}>
+                    {loading && <p className={'text-slate-700 text-center w-full text-2xl'}>Loading...</p>}
+                    {!loading && listings.length === 0 &&
+                        (<p className={'text-slate-700 text-2xl'}>No listings found. Modify your search!</p>)
+                    }
+                    {!loading && listings && listings.map((listing) => <ListingItem key={listing._id} listing={listing} />)}
+                </div>
             </div>
         </div>
     )
