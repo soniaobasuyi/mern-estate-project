@@ -1,4 +1,4 @@
-import {FaSearch} from "react-icons/fa";
+import {FaBars, FaSearch} from "react-icons/fa";
 import {Link, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
@@ -6,6 +6,7 @@ import {useEffect, useState} from "react";
 export default function Header() {
     const {currentUser} = useSelector(state => state.user);
     const [searchTerm, setSearchTerm] = useState('');
+    const [hamburgerOpen, setHamburgerOpen] = useState(false);
     const navigate = useNavigate();
 
     const handleSubmit = (e) => {
@@ -47,21 +48,57 @@ export default function Header() {
                         <FaSearch className={'text-slate-600'}/>
                     </button>
                 </form>
-                <ul className={'flex gap-4'}>
+
+                <ul className={'hidden sm:flex gap-4'}>
                     <Link to={'/'}>
-                        <li className={'hidden sm:inline text-slate-700 hover:underline'}>Home</li>
+                        <li className={'text-slate-700 hover:underline'}>Home</li>
                     </Link>
                     <Link to={'/about'}>
-                        <li className={'hidden sm:inline text-slate-700 hover:underline'}>About</li>
+                        <li className={'text-slate-700 hover:underline'}>About</li>
                     </Link>
                     <Link to={'/profile'}>
                         {currentUser ? (
-                            <img className={'rounded-full h-7 w-7 object-cover'} src={currentUser.avatar} alt={'profile'} />
+                            <li className={'text-slate-700 hover:underline'}>Profile</li>
                         ) : (
                             <li className={'text-slate-700 hover:underline'}>Sign in</li>
                         )}
                     </Link>
                 </ul>
+
+                <div className={'sm:hidden relative'}>
+                    <div
+                        className={'relative inline-block'}
+                        onMouseEnter={() => setHamburgerOpen(true)}
+                        onMouseLeave={() => setHamburgerOpen(false)}
+                        onClick={() => setHamburgerOpen(!hamburgerOpen)}
+                    >
+                        <button className={'text-slate-700'}>
+                            <FaBars size={24}/>
+                        </button>
+
+                        <div
+                            className={`absolute right-0 mt-2 w-40 bg-gray-100 shadow-lg rounded-lg transition-all duration-300 origin-top ${
+                                hamburgerOpen ? "opacity-100 scale-y-100" : "opacity-0 scale-y-0"
+                            }`}
+                        >
+                            <ul className={'flex flex-col text-gray-800 p-3 space-y-2'}>
+                                <Link to={'/'} onClick={() => setHamburgerOpen(false)}>
+                                    <li className={'text-slate-700 hover:bg-slate-200 p-2 rounded'}>Home</li>
+                                </Link>
+                                <Link to={'/about'} onClick={() => setHamburgerOpen(false)}>
+                                    <li className={'text-slate-700 hover:bg-slate-200 p-2 rounded'}>About</li>
+                                </Link>
+                                <Link to={'/profile'}>
+                                    {currentUser ? (
+                                        <li className={'text-slate-700 p-2 hover:bg-slate-200 rounded'}>Profile</li>
+                                    ) : (
+                                        <li className={'text-slate-700 p-2 hover:bg-slate-200 rounded'}>Sign in</li>
+                                    )}
+                                </Link>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
         </header>
     )
