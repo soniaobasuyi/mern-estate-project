@@ -1,4 +1,4 @@
-import {FaBars, FaSearch} from "react-icons/fa";
+import {FaBars, FaSearch, FaTimes} from "react-icons/fa";
 import {Link, useNavigate} from "react-router-dom";
 import {useSelector} from "react-redux";
 import {useEffect, useState} from "react";
@@ -73,7 +73,7 @@ export default function Header() {
                         onClick={() => setHamburgerOpen(!hamburgerOpen)}
                     >
                         <button className={'text-slate-700'}>
-                            <FaBars size={24}/>
+                            {hamburgerOpen ? <FaTimes size={24}/> : <FaBars size={24}/>}
                         </button>
 
                         <div
