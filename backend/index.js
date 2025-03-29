@@ -36,8 +36,12 @@ app.use('/api/listing', listingRouter);
 
 app.use(express.static(path.join(__dirname, '/frontend/dist')));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+app.use((req, res, next) => {
+    if (!req.originalUrl.startsWith('/api')) {
+        res.sendFile(path.join(__dirname, 'frontend', 'dist', 'index.html'));
+    } else {
+        next();
+    }
 });
 
 app.use((err, req, res, next) => {
