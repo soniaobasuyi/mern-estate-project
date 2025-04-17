@@ -23,7 +23,14 @@ export default function ListingItem( {listing} ) {
                     <p className={'text-sm text-gray-600 line-clamp-2'}>{listing.description}</p>
 
                     <p className={'text-green-700 mt-2 font-bold'}>
-                        ${listing.offer ? listing.discountPrice.toLocaleString('en-US') : listing.regularPrice.toLocaleString('en-US')}
+                        {listing.offer ?
+                            (<>
+                                <span className={'line-through text-gray-400'}>${listing.regularPrice.toLocaleString('en-US')}</span>
+                                {' '}
+                                <span>${listing.discountPrice.toLocaleString('en-US')}</span>
+                            </>) :
+                            (<span>${listing.regularPrice.toLocaleString('en-US')}</span>)
+                        }
                         {listing.type === 'rent' && ' / month'}
                     </p>
 
