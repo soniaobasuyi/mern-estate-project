@@ -66,7 +66,7 @@ export default function Home() {
             </div>
 
             <Swiper navigation>
-                {saleListings && saleListings.length > 0 && saleListings.map((listing) => (
+                {offerListings && offerListings.length > 0 && offerListings.map((listing) => (
                     <SwiperSlide key={listing._id}>
                         <div
                             style={{
