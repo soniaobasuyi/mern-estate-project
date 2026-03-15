@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import { signInStart, signInSuccess, signInFailure } from "../redux/user/userSlice.js";
 import OAuth from "../components/OAuth.jsx";
@@ -10,6 +10,10 @@ export default function SignIn() {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
+    useEffect(() => {
+        dispatch(signInFailure(null));
+    }, [dispatch]);
+
     const handleChange = (e) => {
         setFormData({
             ...formData,
@@ -19,6 +23,11 @@ export default function SignIn() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!formData.email || !formData.password) {
+            dispatch(signInFailure('email and password cannot be empty'));
+        }
+
         try {
             dispatch(signInStart());
             const res = await fetch('api/auth/signin', {
